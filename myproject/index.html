@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <!--<script src="https://cdn.jsdelivr.net/npm/vue@2.5.22/dist/vue.js"></script>-->
+  <script src="vue.js"></script>
+  <title>vue入门</title>
+</head>
+
+<body>
+      <div id="app">{{msg}}
+          <h1 v-text="msg"></h1>
+          <h1 v-html="msg"></h1>
+          <h1 @click="handleClick">{{msg}}</h1>
+      </div>  <!--div id="app" 挂载点, div中接收时需要写 {{message}}插值表达式 -->
+
+
+
+      <div id="app-2">
+        <span v-bind:title="msg">
+            悬浮
+        </span>
+      </div>
+
+      <!-- built files will be auto injected -->
+      <script>
+        var myvue = new Vue({
+          el: "#app", /*el表示接管的DOM对象*/
+          data: {
+            msg: "hello world and vue"
+          },
+          method: {
+            handleClick: function () {
+              this.msg = "我想点你一下子"
+            }
+          }
+        })
+
+        new Vue({
+          el:"#app-2",
+          data:{
+            msg:"页面加载于:"+new Date().toDateString()
+          }
+
+        })
+      </script>
+
+</body>
+</html>
+
