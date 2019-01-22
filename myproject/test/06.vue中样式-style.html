@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="../vue.js"></script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <div id="app">
+    <!--对象就是无序的K,V集合-->
+    <!--<h1 :style="objStyle">这是一个H1</h1>-->
+    <h1 :style="[objStyle,objStyle2]">这是一个H1</h1>
+  </div>
+<script>
+  var vm=new Vue({
+    el:"#app",
+    data:{
+      objStyle:{color:'red','font-weight':800},
+      objStyle2:{'font-style': 'italic'}
+    },
+    methods:{}
+  })
+</script>
+</body>
+</html>

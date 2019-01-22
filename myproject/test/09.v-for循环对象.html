@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="../vue.js"></script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+  <!--注意:在遍历对象身上的KV对的时候,除了有key和val 还有索引-->
+  <!--<p v-for="(v,k,i) in user">{{k}}--{{v}}--{{i}}</p>-->
+  <p v-for="(v,k) in user">{{k}}--{{v}}</p>
+</div>
+<script>
+  var vm=new Vue({
+    el:"#app",
+    data:{
+      user:{
+        id:1,
+        name:'cang'
+      }
+    },
+    methods:{}
+  })
+</script>
+</html>

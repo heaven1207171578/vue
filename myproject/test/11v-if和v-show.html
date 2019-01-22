@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="../vue.js"></script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+  <button @click="change">button</button>
+  <!--v-if的特点就是每次都会创建/删除元素-->
+  <!--v-show的特点就是每次 都是display的none和block切换.不会删除-->
+  <!--v-if有较高的切换性能消耗-->
+  <!--v-show有较高的初始渲染消耗-->
+  <!--如果元素涉及到频繁切换,建议使用v-show-->
+  <!--如果元素初始可能不显示,建议使用v-if-->
+  <h3 v-if="flag">这是用v-if控制的元素</h3>
+  <h3 v-show="flag">这是用v-show控制的元素</h3>
+</div>
+<script>
+  var vm=new Vue({
+    el:"#app",
+    data:{
+      flag:true
+    },
+    methods:{
+      change(){
+        /*if(this.flag){
+          this.flag=false;
+        }else{
+          this.flag=true;
+        }*/
+        this.flag=!this.flag;
+      }
+    }
+  })
+</script>
+</body>
+</html>
