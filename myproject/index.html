@@ -9,17 +9,18 @@
 </head>
 
 <body>
-<div id="app">{{msg}}
+<div id="app">
+  <p>{{msg}}</p>
   <h1 v-text="msg"></h1>
   <h1 v-html="msg"></h1>
   <h1 @click="handleClick">{{msg}}</h1>
 </div>  <!--div id="app" 挂载点, div中接收时需要写 {{message}}插值表达式 -->
 
 <script>
-  var myvue = new Vue({
-    el: "#app", /*el表示接管的DOM对象*/
-    data: {
-      msg: "hello world and vue"
+  var vm = new Vue({
+    el: "#app", /*el表示接管的DOM对象,可控制的这个元素中的所有内容,是element缩写*/
+    data: {// data属性中 存放的是el中要用到的数据
+      msg: "hello world and vue" //通过vue直接将数据渲染到元素上,不需要手动操作dom了
     },
     method: {
       handleClick: function () {

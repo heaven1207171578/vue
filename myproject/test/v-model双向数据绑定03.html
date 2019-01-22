@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="../vue.js"></script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <h4>{{msg}}</h4>
+    <!--v-bind只能实现数据的单项绑定,M到V中-->
+    <!--<input type="text" :value="msg" style="width: 100%">-->
+  <!--使用v-model 指令,可以实现表单元素和model中数据的双向数据绑定-->
+  <!--注意:v-model只能运用在表单元素中-->
+  <!--表单元素: input(radio,text,address,email ...) select checkbox textarea-->
+  <input type="text" v-model="msg" style="width: 100%">
+</div>
+
+<script>
+  var vm = new Vue({
+    el: "#app",
+    data: {
+      msg:"我是一个爱学习,爱思考,没瑕疵的人类"
+    },
+    methods: {}
+  })
+</script>
+</body>
+</html>

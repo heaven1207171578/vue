@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <script src="../vue.js"></script>
+  <title>Title</title>
+</head>
+<style>
+  [v-cloak] {
+    display: none;
+  }
+</style>
+
+<body>
+<div id="app">
+  <!--v-cloak解决 插值表达式 闪烁问题-->
+  <p v-cloak>11111111{{ msg }}111111</p>
+  <h4 v-text="msg"></h4>
+  <p>-----------------------------------------------</p>
+  <div>{{ msg2 }}</div>
+  <div v-html="msg2"></div>
+  <p>-----------------------------------------------</p>
+  <!--v-bind 用于绑定属性的命令 会把后边的字符串当作 new vue data中设置变量-->
+  <!--v-bind的简写 v-bind 简写 : -->
+  <!--也可以写合法的js表达式 如:mytitle + '321'-->
+  <input id="btn" type="button" :value="msg" :title="mytitle + '321'"/>
+  <!--v-on:xxx 绑定事件的命令-->
+  <!--v-on:click简写 @-->
+  <input type="button" :value="msgtoo" @click="show">
+</div>
+
+<script>
+  new Vue({
+    el: "#app",
+    data: {
+      msg: "123",
+      msgtoo: "on:click",
+      msg2: "<h1>dadade</h1>",
+      mytitle: "这是我定义的title"
+    },
+    methods: { //这个 methods属性中定义了当前vue实例所有可用的方法
+      show: function () {
+        alert("hello show function");
+      }
+    }
+  })
+
+  document.getElementById('btn').onclick = function () {
+    alert("你通过js获取dom的方式点击我了");
+  }
+</script>
+</body>
+</html>

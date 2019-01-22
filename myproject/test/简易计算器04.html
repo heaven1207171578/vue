@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="../vue.js"></script>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div id="app">
+  <input v-model="n1" type="text">
+
+  <select v-model="opt">
+    <option value="+">+</option>
+    <option value="-">-</option>
+    <option value="*">*</option>
+    <option value="/">/</option>
+  </select>
+
+  <input v-model="n2" type="text">
+
+  <input value="=" type="button" @click="calc">
+
+  <input v-model="results"  type="text">
+</div>
+</body>
+<script>
+  var vm = new Vue({
+    el: "#app",
+    data: {n1: 0, n2: 0, results: 0,opt:"*"},//opt:"*" 默认展示*
+    methods: {
+      calc(){
+        /*switch (this.opt){
+          case '+':
+            this.results=parseInt(this.n1)+parseInt(this.n2)
+            break;
+          case '-':
+            this.results=parseInt(this.n1)-parseInt(this.n2)
+            break;
+          case '*':
+            this.results=parseInt(this.n1)*parseInt(this.n2)
+            break;
+          case '/':
+            this.results=parseInt(this.n1)/parseInt(this.n2)
+            break;
+        }*/
+        //投机取巧
+        var codeResult="parseInt(this.n1)"+this.opt+ "parseInt(this.n2)";
+        this.results=eval(codeResult);
+
+      }
+    }
+  })
+</script>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="../vue.js"></script>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+  <div id="app">
+    <p >{{message}}</p>
+    <input type="button" :value="msg" @click="lang">
+    <input type="button" :value="msg2" @click="didiao">
+  </div>
+
+  <script>
+    //注意:在vm实例中,如果想要获取data上的数据 或者 想要调用 methods中的方法 ,
+    // 必须通过this.数据属性名/this.方法名(). this就表示当前的vm对象
+    var vm=new Vue({
+      el:"#app",
+      data:{
+        message:"猥琐发育别狼,....",
+        msg:"狼起来",
+        msg2:"低调",
+        thisInterval:null  //定义定时器的变量
+
+      },
+      methods:{
+
+        lang:function () {
+          var _this=this;
+
+          if (thisInterval!=null)return;
+
+
+          this.thisInterval=setInterval(function () {
+            // alert(this.message);
+            //获取到头的第一个字符串
+            var start=_this.message.substring(0,1);
+            //获取到 后面的所有字符
+            var end=_this.message.substring(1);
+            //重新拼接,并赋值给message
+            _this.message=end+start;
+          },100)
+
+
+          //注意: vm实例会监听自己身上Data 的所有变量数据的改变,只要数据发生改变,就会自动把最新的数据从data上同步到页面上
+          //[好处:只需要关心数据的变化,不需要考虑如何重新渲染到页面]
+        },
+
+        //ES6写函数的方式↓
+        didiao() {
+          //停止定时器
+          clearInterval(this.thisInterval);
+
+          //
+          this.thisInterval=null
+        }
+      }
+    })
+/*分析
+  1.绑定@click事件
+  2.在vue的处理函数中写相关的逻辑代码
+    使用subString进行字符串的截取,截取第一个,放到最后一个位置
+  3.为了实现点击按钮后,自动动态截取功能, 需要把第2步放到定时器中
+  */
+  </script>
+</body>
+</html>
