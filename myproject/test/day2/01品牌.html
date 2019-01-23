@@ -18,21 +18,21 @@
         <input type="text" class="form-control" v-model="id">
       </label>
       <label>Name:
-        <input type="text" class="form-control" v-model="name" >
+        <input type="text" class="form-control" v-model="name" @keyup.enter="add()">
       </label>
       <input type="button" value="添加" class="btn btn-primary" @click="add()">
       <hr>
       <label>搜索名称关键字:
-        <input type="text" class="form-control" v-focus v-color="'blue'" v-model="keywords">
+        <input type="text" class="form-control"  v-model="keywords" id="search" v-focus v-color="'red'">
       </label>
     </div>
   </div>
   <table class="table table-bordered table-hover table-striped">
     <thead>
-      <th>Id</th>
-      <th>Name</th>
-      <th>Ctime</th>
-      <th>Operation</th>
+    <th>Id</th>
+    <th>Name</th>
+    <th>Ctime</th>
+    <th>Operation</th>
     </thead>
 
     <tbody>
@@ -51,54 +51,92 @@
   </table>
 </div>
 <div id="app2">
-  <h3>{{dt | dataformat('yyyy-mm')}}</h3>
+  <h3 v-fontweight="700" v-fontsize="'1150px'">{{dt | dataformat('yyyy-mm')}}</h3>
 </div>
 <script>
   //全局过滤器,时间格式化
   //全局过滤器,所有的vm实例都可以共享
-  Vue.filter('dataformat',function (ctime,pattern='') {
-    var dt=new Date(ctime);
-    var year=dt.getFullYear();
-    var month=dt.getMonth()+1; //getMonth从0开始;
-    var day=dt.getDate();
-    var hour=dt.getHours();
-    var minte=dt.getMinutes();
-    var second=dt.getSeconds();
+  Vue.filter('dataformat', function (ctime, pattern = '') {
+    var dt = new Date(ctime);
+    var year = dt.getFullYear();
+    var month = dt.getMonth() + 1; //getMonth从0开始;
+    var day = dt.getDate();
+    var hour = dt.getHours();
+    var minte = dt.getMinutes();
+    var second = dt.getSeconds();
     // return '${year}-${month}-${day}';
-    if (pattern.toLowerCase()=='yyyy-mm-dd'){
-      return year+'-'+ month +'-'+day;
-    }else {
+    if (pattern.toLowerCase() == 'yyyy-mm-dd') {
+      return year + '-' + month + '-' + day;
+    } else {
       return `${year}-${month}-${day} ${hour}:${minte}:${second}`;
       //return year+'-'+ month +'-'+day+'-';
     }
   })
 
+  //使用 vue.diretive() 定义全局的指令 v-focus
+  //参数1:指令名,无需加v-前缀.但调用时必须v-开头
+  //参数2:是一个对象,这个对象身上有一些指令相关的函数,这些函数可以在特定的阶段,执行相关操作.
+  Vue.directive('focus',{
+    //注:在每个函数中,参数1:永远都是el,表示被绑定了当前指令的那个元素,这个el参数是一个原生的JS对象(dom)
+
+    bind:function (el) { //每当指令绑定到元素上的时候,会立即执行这个bind函数[只触发一次]
+      //元素刚绑定了指令的时候,还没有插入dom树中,这个时候 focus函数没有作用
+      //因为, 一个元素,只有插入DOM中,才可以获取焦点
+     // el.focus()
+    },
+    inserted:function (el) {//表示元素插入到DOM中的时候,会执行inserted函数[只触发一次]
+      el.focus()
+    },
+    updated:function () {//当VNode更新的时候,会执行updated,可能会触发多次
+
+    }
+  })
+
+  Vue.directive('color',{
+    bind:function (el,binding) {
+      //样式只要绑定了给定的元素,不管元素有没有插入到dom中去,这个元素肯定有一个内联样式
+      //将来元素肯定会显示到页面中去,这时候,浏览器的渲染引擎会自动解析给到元素中.
+      el.style.color=binding.value;
+    }
+  })
 
   new Vue({
-    el:"#app2",
-    data:{
-      dt:new Date()
+    el: "#app2",
+    data: {
+      dt: new Date()
     },
-    methods:{},
+    methods: {},
     //如何自定义一个私有的过滤器
     //有私有过滤器 如果过滤器名称一样,vm优先调用私有 没有再去寻找全局
     //padStart():从字符串开头填充, 参数1:填充位数, 参数2:填充值
-    filters:{
-      dataformat:function (ctime,pattern) {
-        var dt=new Date(ctime);
-        var year=dt.getFullYear();
-        var month=(dt.getMonth()+1).toString().padStart(2,'0'); //getMonth从0开始;
-        var day=dt.getDate().toString().padStart(2,'0');
-        var hour=dt.getHours().toString().padStart(2,'0');
-        var minte=dt.getMinutes().toString().padStart(2,'0');
-        var second=dt.getSeconds().toString().padStart(2,'0');
+    filters: {
+      dataformat: function (ctime, pattern) {
+        var dt = new Date(ctime);
+        var year = dt.getFullYear();
+        var month = (dt.getMonth() + 1).toString().padStart(2, '0'); //getMonth从0开始;
+        var day = dt.getDate().toString().padStart(2, '0');
+        var hour = dt.getHours().toString().padStart(2, '0');
+        var minte = dt.getMinutes().toString().padStart(2, '0');
+        var second = dt.getSeconds().toString().padStart(2, '0');
         // return '${year}-${month}-${day}';
-        if (pattern.toLowerCase()=='yyyy-mm-dd'){
-          return year+'-'+ month +'-'+day;
-        }else {
+        if (pattern.toLowerCase() == 'yyyy-mm-dd') {
+          return year + '-' + month + '-' + day;
+        } else {
           return `${year}-${month}-${day} ${hour}:${minte}:${second}`;
         }
       }
+    },
+    //自定义私有指令
+    directives:{
+        'fontweight':{ //字体粗细
+          bind:function (el,binding) {
+            el.style.fontWeight=binding.value;
+          }
+        },
+        'fontsize':function (el,binding) {//注:这个代码等同宇 function等于bind和update的钩子函数上去
+            alert(binding.value)
+            el.style.fontSize=parseInt(binding.value)+'px';
+        }
     }
   })
 
@@ -111,25 +149,25 @@
         {id: '3', name: 'yue', ctime: new Date()},
         {id: '4', name: 'chen', ctime: new Date()}
       ],
-      id:'',
-      name:'',
-      keywords:''
+      id: '',
+      name: '',
+      keywords: ''
     },
     methods: {
-      add(){
-        var user={id:this.id,name:this.name,ctime:new Date()};
+      add() {
+        var user = {id: this.id, name: this.name, ctime: new Date()};
         this.list.push(user)
         // this.name='';
         // this.id='';
         //添加一次之后 id,name的框就变成空
         //同上 联合赋值. 从右向左赋值
-         this.id=this.name='';
+        this.id = this.name = '';
       },
-      remove(id){ //根据id 删除数据
+      remove(id) { //根据id 删除数据
         alert(id);
-        this.list.some((item,i)=>{
-          if (item.id==id){
-            this.list.splice(i,1);//删除的索引,删除几个
+        this.list.some((item, i) => {
+          if (item.id == id) {
+            this.list.splice(i, 1);//删除的索引,删除几个
             return true; //  在数组的some方法中,如果return true, 就会立即终止循环
           }
         })
@@ -139,8 +177,8 @@
           }
         })*/
       },
-      search(keywords){
-        var newList=[];
+      search(keywords) {
+        var newList = [];
         /*this.list.forEach(item=>{
           if (item.name.indexOf(keywords)!=-1){
             newList.push(item);
@@ -148,8 +186,8 @@
            return newList;
         })
        */
-        return this.list.filter(item=>{//过滤
-          if (item.name.includes(keywords)){//包含
+        return this.list.filter(item => {//过滤
+          if (item.name.includes(keywords)) {//包含
             return item;
           }
         })
@@ -157,34 +195,34 @@
     }
   })
   //---------------------------------------------------------------------------------------------
-  /* var vm=new Vue({
-  el:"#app",
-  data(){
-  return {
-  list: [
-  {id: '1', name: 'cang', ctime: new Date()},
-  {id: '2', name: 'tai', ctime: new Date()},
-  {id: '3', name: 'yue', ctime: new Date()},
-  {id: '4', name: 'chen', ctime: new Date()}
-  ]
-  }
-  }
-  })
-  */
-  /*export default {
-  name:'app',
-  data(){
-  return{
-  list:[
-  {id:'1',name:'cang',ctime:new Date()},
-  {id:'2',name:'tai',ctime:new Date()},
-  {id:'3',name:'yue',ctime:new Date()},
-  {id:'4',name:'chen',ctime:new Date()}
-  ]
-  }
-  }
-  }
-  */
+  // /* var vm=new Vue({
+  // el:"#app",
+  // data(){
+  // return {
+  // list: [
+  // {id: '1', name: 'cang', ctime: new Date()},
+  // {id: '2', name: 'tai', ctime: new Date()},
+  // {id: '3', name: 'yue', ctime: new Date()},
+  // {id: '4', name: 'chen', ctime: new Date()}
+  // ]
+  // }
+  // }
+  // })
+  // */
+  // /*export default {
+  // name:'app',
+  // data(){
+  // return{
+  // list:[
+  // {id:'1',name:'cang',ctime:new Date()},
+  // {id:'2',name:'tai',ctime:new Date()},
+  // {id:'3',name:'yue',ctime:new Date()},
+  // {id:'4',name:'chen',ctime:new Date()}
+  // ]
+  // }
+  // }
+  // }
+  // */
 </script>
 </body>
 
