@@ -7,20 +7,26 @@
 </head>
 <body>
 <div id="app">
-    <p v-for="user in list">{{user.name}}--{{user.age}}</p>
+    <p v-for="user in list">{{user.name}}--{{user.id}}</p>
     <p v-for="(user,i) in list">索引:{{i}}--{{user.name}}--{{user.age}}</p>
 </div>
+
+
 <script>
   var vm=new Vue({
     el:"#app",
     data:{
       list:[
-        {name:"cang",age:12},
-        {name:"zzz",age:15},
-        {name:"laozi",age:21}
+        {id:'1',name:'cang',ctime:new Date()},
+        {id:'2',name:'tai',ctime:new Date()},
+        {id:'3',name:'yue',ctime:new Date()},
+        {id:'4',name:'chen',ctime:new Date()}
       ]
     },
     methods:{}
   })
+
+
 </script>
+</body>
 </html>

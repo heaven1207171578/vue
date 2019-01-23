@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="../lib/js/vue.js"></script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+  <p>{{msg | msgFormat('疯狂','帅')}}</p>
+</div>
+<script>
+  Vue.filter('msgFormat',function (msg,arg,arg2) {
+    //replace第一个参数:可以写字符串/也可以写正则
+    return msg.replace(/单纯/g,arg+arg2);
+  })
+  var vm=new Vue({
+    el:"#app",
+    data:{
+        msg:'我是一个单纯的少年,单纯的我,还有单纯的你'
+    },
+    methods:{}
+  })
+ //过滤器调用的时候的格式 {{ name | 过滤器的名称}}
+</script>
+</body>
+</html>
