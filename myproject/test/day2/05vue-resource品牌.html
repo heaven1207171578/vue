@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="../lib/js/vue.js"></script>
+  <script src="../lib/js/vue-resource.js"></script>
+  <link rel="stylesheet" href="../lib/css/bootstrap.css">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id='app'>
+
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">添加品牌</h3>
+    </div>
+    <div class="panel-body form-inline">
+      <label>userName:
+        <input type="text" class="form-control" v-model="name">
+      </label>
+      <label>pwd:
+        <input type="text" class="form-control" v-model="pwd">
+      </label>
+      <label>roles:
+        <input type="text" class="form-control" v-model="roles">
+      </label>
+      <input type="button" value="添加" class="btn btn-primary" @click="add">
+      <hr>
+      <label>搜索名称关键字:
+        <input type="text" class="form-control" >
+      </label>
+    </div>
+  </div>
+
+
+  <!-- 表格 -->
+  <table class="table table-bordered table-hover table-striped">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>userName</th>
+      <th>Ctime</th>
+      <th>Operation</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr v-for="item in list" :key="item.id">
+      <td>{{item.id}}</td>
+      <td>{{item.userName}}</td>
+      <td>{{item.roles}}</td>
+      <td>{{item.ctime}}</td>
+      <td>
+        <a href="" @click.prevent="del(item.id)">删除</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<div id="app2">
+  <h2 v-color="'pink'" v-fontweight="'800'" v-fontsize="'50'">你好啊</h2>
+</div>
+<script>
+  Vue.http.options.root='http://192.168.0.162:8082/';
+  var vm=new Vue({
+    el:"#app",
+    data:{
+      name:'',
+      pwd:'',
+      roles:'',
+      list: [
+        // {id: '1', userName: '奔驰', ctime: new Date()},
+        // {id: '2', userName: '奥迪', ctime: new Date()}
+      ]
+    },
+    created(){ //当vm实例的data和methods 初始化完毕之后. vm实例会自动执行
+      this.getAlllist();
+    },
+    methods:{
+      getAlllist(){
+        this.$http
+          .get('api/user') //如果配置了全局请求的根域名, 单独发起url路径 应该是相对路径,不要想着拼接. 也不要加 / 这个符号
+          .then(data=> {
+            //注:通过$http 获取到的数据,都在data.body中
+            var result=data.body;
+
+            if (result.code==20000){
+              //this.list.push(data.body)
+              this.list=result.data;
+            }else{
+              alert('huoqu数据失败')
+            }
+          })
+      },
+      add(){
+        var form={name:this.name,pwd:this.pwd,roles:this.roles};
+        this.$http.post('http://192.168.0.162:8082/api/user',form,{body:true})
+          .then(result=>{
+            if (result!=''){
+              //window.location.reload();
+              //成功后 再调用一下get方法 局部刷新品牌列表. 代替上列表
+              this.getAlllist();
+              //清空输入框
+              this.roles=this.pwd=this.name='';
+            }
+            console.log(result);
+          })
+      }
+    }
+  })
+</script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="../lib/js/vue.js"></script>
+  <!-- 引入vue-resource,依赖与vue.js,所以先后顺序 -->
+  <script src="../lib/js/vue-resource.js"></script>
+  <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <input type="button" value="get请求" @click="getInfo()">
+    <input type="button" value="post请求" @click="postInfo()">
+    <input type="button" value="jsonp请求" @click="jsonpInfo()">
+</div>
+<script>
+  var vm=new Vue({
+    el:"#app",
+    data:{
+      name:'postvue',
+      pwd:'vue321',
+      roles:'admin'
+    },
+    //http://192.168.0.162:8082/api/user http://vue.studyit.id/api/getlunbo
+    methods:{
+      getInfo(){
+        this.$http
+          .get('http://192.168.0.162:8082/api/user')
+          .then(function (data) {
+          console.log(data.body);
+        })
+      },
+      postInfo(){
+        var form={name:this.name,pwd:this.pwd,roles:this.roles};
+        this.$http.post('http://192.168.0.162:8082/api/user',form,{body:true})
+          .then(result=>{
+            console.log(result);
+          })
+      },
+      jsonpInfo(){
+        this.$http.jsonp('http://192.168.0.162:8082/api/jsonpuser')
+          .then(result=>{
+            console.log(result);
+          })
+      }
+    }
+  })
+</script>
+</body>
+</html>
