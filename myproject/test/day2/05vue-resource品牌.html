@@ -7,6 +7,18 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+<style>
+  .v-enter,
+  .v-leave-to{
+    opacity: 0;
+    transform: translateY(80px);
+  }
+
+  .v-enter-active,
+  .v-leave-active{
+    transition: all 0.6s ease;
+  }
+</style>
 <body>
 <div id='app'>
 
@@ -44,6 +56,7 @@
     </tr>
     </thead>
     <tbody>
+    <transition-group>
     <tr v-for="item in list" :key="item.id">
       <td>{{item.id}}</td>
       <td>{{item.userName}}</td>
@@ -53,6 +66,7 @@
         <a href="" @click.prevent="del(item.id)">删除</a>
       </td>
     </tr>
+    </transition-group>
     </tbody>
   </table>
 </div>
@@ -60,7 +74,10 @@
   <h2 v-color="'pink'" v-fontweight="'800'" v-fontsize="'50'">你好啊</h2>
 </div>
 <script>
+  //全局配置URL
   Vue.http.options.root='http://192.168.0.162:8082/';
+  //全局配置提交数据格式
+  Vue.http.options.body=true;
   var vm=new Vue({
     el:"#app",
     data:{
@@ -73,6 +90,7 @@
       ]
     },
     created(){ //当vm实例的data和methods 初始化完毕之后. vm实例会自动执行
+      //就是打开页面,最先加载此方法(数据)
       this.getAlllist();
     },
     methods:{
@@ -91,9 +109,24 @@
             }
           })
       },
+      /*换下边这个方式,请求
       add(){
         var form={name:this.name,pwd:this.pwd,roles:this.roles};
         this.$http.post('http://192.168.0.162:8082/api/user',form,{body:true})
+          .then(result=>{
+            if (result!=''){
+              //window.location.reload();
+              //成功后 再调用一下get方法 局部刷新品牌列表. 代替上列表
+              this.getAlllist();
+              //清空输入框
+              this.roles=this.pwd=this.name='';
+            }
+            console.log(result);
+          })
+      }*/
+      add(){
+        var form={name:this.name,pwd:this.pwd,roles:this.roles};
+        this.$http.post('api/user',form)
           .then(result=>{
             if (result!=''){
               //window.location.reload();

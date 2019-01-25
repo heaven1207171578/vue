@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="../lib/js/vue.js"></script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+  /*<!--定义两组样式,来控制transition内部的元素,实现动画-->*/
+  /*v-enter [这是一个时间点] 是动画进入之前,元素起始状态*/
+  /*v-leave-to [这是一个时间点] 是动画离开之后,离开的终止状态,此时元素动画已经结束*/
+  .v-enter,
+  .v-leave-to{
+    opacity: 0;
+    transform: translateX(180px);
+  }
+
+  /*v-enter-active:入场动画的时间段*/
+  /*v-leave-active:离开动画的时间段*/
+  .v-enter-active,
+  .v-leave-active{
+     transition: all 0.4s ease;
+  }
+</style>
+<body>
+<div id="app">
+  <input type="button" value="toggle" @click="flag=!flag">
+  <!--使用transiton元素,吧需要被动画控制的元素包裹起来-->
+  <!--vue官方提供的元素-->
+  <transition>
+  <h3 v-if="flag">测试</h3>
+  </transition>
+</div>
+<script>
+  var vm=new Vue({
+    el:"#app",
+    data:{
+      flag:'true'
+    },
+    methods:{}
+  })
+</script>
+</body>
+</html>
