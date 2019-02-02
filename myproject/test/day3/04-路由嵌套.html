@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="../lib/js/vue.js"></script>
+  <script src="../lib/js/vue-router.js"></script>
+
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div id="app">
+  <router-link to="/acc">点击acc</router-link>
+
+
+    <router-view></router-view>
+</div>
+<template id="acc">
+  <div>
+    <h1>这是acc组件</h1>
+
+    <router-link to="register">注册</router-link>
+    <router-link to="login">登陆</router-link>
+    <router-view></router-view>
+  </div>
+</template>
+<script>
+
+  //组件的模板对象
+  let acc={
+    template:'#acc'
+
+  }
+  let login={
+    template:'<h3>登陆</h3>'
+
+  }
+  let register={
+    template:'<h3>注册</h3>'
+
+  }
+
+  let router=new VueRouter({
+    routes:[
+      {
+        path:'/acc',
+        component:acc,
+        children:[                        //children子路由
+          {path:'login', component:login},//path开头不要加“/”
+          {path:'register', component:register}
+        ]}
+      // {path:'/acc/login', component:login},
+      // {path:'/acc/register', component:register}
+    ]
+  })
+
+  var vm=new Vue({
+    el:"#app",
+    data:{
+
+    },
+    methods:{},
+    router:router
+  })
+</script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="../lib/js/vue.js"></script>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div id="app">
+  <!--父组件向子组件传递方法,使用的是事件绑定机制,v-on:,当我们自定义了一个 事件属性之后,
+  那么子组件就可以通过某方式 来调用传递进去的方法了-->
+  <com2 @func321123="show"></com2>
+</div>
+<template id="son">
+  <div>
+    <h1>这是子组件</h1>
+    <input type="button" value="点击出发父组件给自己传递的方法" @click="my">
+  </div>
+</template>
+<script>
+  // 定义了一个字面量类型的 组件模板对象
+  let com2 = {
+    template: '#son',
+    data(){
+      return{
+        sonmsg:"com2这是子组建私有属性"
+      }
+    },
+    methods: {
+      my() {
+
+        console.log("用了zi方法");
+        //emit英文意思就是:触发 调用的意思
+        // 当点击子组件的按钮的时候，如何 拿到 父组件传递过来的func方法，并调用该方法
+        this.$emit("func321123",this.sonmsg,'456');
+      }
+    }
+  }
+  let vm = new Vue({
+    el: "#app",
+    data: {},
+    methods: {
+      show(data,data2) {
+        console.log("用了父show方法"+"----$emit传参数为:"+data+",第二个参数:"+data2);
+      }
+    },
+    components: {
+      com2
+    }
+  })
+</script>
+</body>
+</html>

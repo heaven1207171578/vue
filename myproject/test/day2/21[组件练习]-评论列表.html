@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="../lib/js/vue.js"></script>
+  <link rel="stylesheet" href="../lib/css/bootstrap.css">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+
+  <cmt-box @flush2="loadCMTS()"></cmt-box>
+
+  <!-- 评论列表 -->
+  <ul class="list-group">
+    <li class="list-group-item" v-for="(item,index) in list" :key="index">
+      <span class="badge">评论人： {{item.name}}</span>
+      {{item.id}}--{{item.context}}
+    </li>
+  </ul>
+
+</div>
+<template id="tmp1" >
+  <div>
+    <div class="form-group">
+      <label>评论人:</label>
+      <input type="text" class="form-control" v-model="name">
+    </div>
+    <div class="form-group">
+      <label>评论内容:</label>
+      <textarea type="text" class="form-control" v-model="context"></textarea>
+    </div>
+    <div class="form-group">
+      <label>评论内容:</label>
+      <input type="button" value="发表" @click="submit1">
+    </div>
+
+  </div>
+</template>
+<script>
+  let componentsBoxes={
+    template:"#tmp1",
+    data(){
+      return{
+        name:'',
+        context:'',
+      }
+    },
+    methods:{
+      submit1(){
+        // 分析：发表评论的业务逻辑
+        // 1、评论数据存到哪里去？？ 存放到 localStorage 中
+        // 2、先组织出一个最新的评论数据对象
+        // 3、想办法，把 第二步中，得到的评论对象。保存到 localStorage中
+        // 3.1localStorage 只支持存放字符串数据，要先调用JSON.stringify
+        // 3.2在保存最新的评论数据之前，要先从localStorage获取到之前评论数据
+        // 3.3需要先判断localStorage中有无数据，若没有，返回"[]"
+        // 3.4发最新的列表数据，再次调用JSON。stringify转为数组字符串
+        let coment={id:new Date(),name:this.name,context:this.context};
+        let list=JSON.parse(localStorage.getItem('cmts')||'[]');
+        list.unshift(coment)
+        localStorage.setItem('cmts',JSON.stringify(list));
+        this.name=this.context='';
+
+        this.$emit("flush2");
+      }
+    }
+  }
+
+  var vm=new Vue({
+    el:"#app",
+    data:{
+
+      list: [
+        {id: '1', name: '仓',context:"内容"},
+        {id: '2', name: '奥',context:"内容"},
+        {id: '3', name: '宝',context:"内容"},
+        {id: '4', name: '保时',context:"内容"}
+      ]
+    },
+    created(){
+      this.loadCMTS()
+    },
+    methods:{
+      loadCMTS(){
+        let list=JSON.parse(localStorage.getItem('cmts')||'[]');
+        this.list=list;
+      }
+    },
+    components:{
+      'cmt-box':componentsBoxes
+    }
+  })
+</script>
+</body>
+</html>

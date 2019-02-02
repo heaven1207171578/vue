@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="../lib/js/vue.js"></script>
+  <script src="../lib/js/vue-router.js"></script>
+
+  <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+  <router-link to="/login?id=1">登陆</router-link>
+  <router-link to="/register">注册</router-link>
+
+  <transition>
+    <!--占位符,可以调用路由,没啥别的用-->
+    <router-view></router-view>
+  </transition>
+</div>
+<script>
+
+  //组件的模板对象
+  let login={
+    template:'<h1>登陆组件--{{$route.query.id}}</h1>',
+    created(){
+      console.log(this.$route.query.id);
+    }
+  }
+  let register={
+    template:'<h1>注册组件</h1>'
+  }
+
+  let router=new VueRouter({
+    routes:[
+      {path:'/', redirect:'/login'},
+      {path:'/login', component:login},
+      {path:'/register', component:register},
+    ]
+  })
+
+  var vm=new Vue({
+    el:"#app",
+    data:{
+
+    },
+    methods:{},
+    router:router
+  })
+</script>
+</body>
+</html>
