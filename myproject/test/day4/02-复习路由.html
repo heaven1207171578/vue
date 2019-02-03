@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="../lib/js/vue.js"></script>
+  <script src="../lib/js/vue-router.js"></script>
+
+  <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+  <router-link to="/login">login</router-link>
+  <router-link to="/regist">regist</router-link>
+
+  <router-view></router-view>
+</div>
+<script>
+
+  //创建子组件
+  let log={
+    template:'<h1>波波开发的登陆</h1>'
+  }
+
+  let reg={
+    template:'<h1>拔拔开发的注册</h1>'
+  }
+
+  //创建路由实例
+  let route=new VueRouter({
+    //路由规则
+    routes:[
+      {path:'/',redirect:"/login" },
+      {path:'/login',component:log},
+      {path:'/regist',component:reg}
+    ],
+    //激活相关的类
+    linkActiveClass:'myactive'
+
+  })
+
+  var vm=new Vue({
+    el:"#app",
+    data:{
+
+    },
+    methods:{},
+    router:route
+  })
+</script>
+</body>
+</html>

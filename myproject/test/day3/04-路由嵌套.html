@@ -18,8 +18,8 @@
   <div>
     <h1>这是acc组件</h1>
 
-    <router-link to="register">注册</router-link>
-    <router-link to="login">登陆</router-link>
+    <router-link to="/register">注册</router-link>
+    <router-link to="/login">登陆</router-link>
     <router-view></router-view>
   </div>
 </template>
@@ -45,8 +45,8 @@
         path:'/acc',
         component:acc,
         children:[                        //children子路由
-          {path:'login', component:login},//path开头不要加“/”
-          {path:'register', component:register}
+          {path:'/login', component:login},//path开头不要加“/”
+          {path:'/register', component:register}
         ]}
       // {path:'/acc/login', component:login},
       // {path:'/acc/register', component:register}

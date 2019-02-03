@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="../lib/js/vue.js"></script>
+  <script src="../lib/js/vue-router.js"></script>
+
+  <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+  <input v-model="firstname" type="text" @keyup="getFullname">+
+  <input v-model="lastname" type="text" @keyup="getFullname">=
+  <input v-model="name" type="text">
+</div>
+<script>
+  var vm=new Vue({
+    el:"#app",
+    data:{
+      firstname:'',
+      lastname:'',
+      name:''
+
+    },
+    methods:{
+      getFullname(){
+        this.name=this.lastname+this.firstname;
+      }
+    }
+  })
+</script>
+</body>
+</html>
