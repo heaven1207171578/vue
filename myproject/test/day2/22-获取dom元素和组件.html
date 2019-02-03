@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="../lib/js/vue.js"></script>
+  <script src="../lib/js/vue-router.js"></script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+  <input type="button" value="获取元素" @click="getEl" ref="inbtn">
+  <h1 ref="h1ref">获取的元素</h1>
+  <compent ref='comp1'></compent>
+</div>
+<script>
+  let compent={
+    template:"<h1>321</h1>",
+    data(){
+      return{
+        msg:"ref调用子组件data"
+
+      }
+    }
+  }
+
+
+  var vm=new Vue({
+    el:"#app",
+    data:{
+
+    },
+    methods:{
+      getEl(){
+      //获取dom元素
+        console.log(this.$refs.h1ref.innerText);
+        //获取子组建的dom元素
+        console.log(this.$refs.comp1.innerText);
+        console.log(this.$refs.comp1.msg);
+
+      }
+    },
+    components:{
+      compent
+    }
+  })
+</script>
+</body>
+</html>

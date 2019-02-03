@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="../lib/js/vue.js"></script>
+  <script src="../lib/js/vue-router.js"></script>
+
+  <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+  <input v-model="firstname" type="text" >+
+  <input v-model="lastname" type="text" >=
+  <input v-model="name" type="text">
+</div>
+<script>
+  var vm=new Vue({
+    el:"#app",
+    data:{
+      firstname:'',
+      lastname:'',
+      name:''
+
+    },
+    methods: {},
+    watch:{ //监听样式变化
+      'firstname':function (newval,oldval) {
+      //  console.log('坚实到了变化')
+      //   this.name=this.lastname+this.firstname;
+         this.name=newval+"--"+this.lastname;
+      },
+      lastname:function (newval) {
+      //  console.log('坚实到了变化')
+      //   this.name=this.lastname+this.firstname;
+         this.name=this.firstname+"--"+newval;
+      }
+    }
+  })
+</script>
+</body>
+</html>

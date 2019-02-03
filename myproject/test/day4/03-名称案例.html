@@ -9,15 +9,24 @@
 </head>
 <body>
 <div id="app">
-
+  <input v-model="firstname" type="text" @keyup="getFullname">+
+  <input v-model="lastname" type="text" @keyup="getFullname">=
+  <input v-model="name" type="text">
 </div>
 <script>
   var vm=new Vue({
     el:"#app",
     data:{
+      firstname:'',
+      lastname:'',
+      name:''
 
     },
-    methods:{}
+    methods:{
+      getFullname(){
+        this.name=this.lastname+this.firstname;
+      }
+    }
   })
 </script>
 </body>

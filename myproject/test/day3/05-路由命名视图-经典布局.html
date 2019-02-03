@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="../lib/js/vue.js"></script>
+  <script src="../lib/js/vue-router.js"></script>
+
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<style>
+  *{
+    margin:0;
+    padding: 0;
+  }
+  .header{
+    background: red;
+    height: 100px;
+  }
+  .container{
+    display:flex;
+    height: 500px;
+  }
+  .left{
+    background: lightblue;
+    flex:2;
+  }
+  .main{
+    background: lightsalmon;
+    flex:8;
+  }
+</style>
+<body>
+<div id="app">
+  <router-view></router-view>
+
+  <div class="container">
+  <router-view name="left"></router-view>
+  <router-view name="menu"></router-view>
+  </div>
+
+</div>
+<script>
+  var header = {
+    template: '<h1 class="header">这是头部</h1>'
+  }
+
+  var leftbox = {
+    template: '<h1 class="left">这是左菜单栏</h1>'
+
+  }
+  var menubox = {
+    template: '<h1 class="main">主体区域</h1>'
+
+  }
+
+  var router = new VueRouter({
+    routes: [
+      {
+        path: '/',
+        components: {
+          default:header,
+          'left':leftbox,
+          'menu':menubox
+        }},
+
+    ]
+
+  })
+
+  var vm = new Vue({
+    el: "#app",
+    data: {},
+    methods: {},
+    router
+  })
+</script>
+</body>
+</html>

@@ -7,20 +7,23 @@
 </head>
 <body>
 <div id="app">
-  <!--父组件可以在,引用子组件的时候,通过 属性绑定(v-bind :)的形式,把需要传递给子组件的数据,已属性绑定的方式,传递到子组件的内部,供子组件使用-->
+  <!--父组件可以在,引用子组件的时候,通过 属性绑定(v-bind :)的形式,把父组件需要传递给子组件的数据,
+      以属性绑定的方式,传递到子组件的内部,供子组件使用
+      先在这个位置自定义绑定名称:parentmsg,父组件传递的值为:msg
+      -->
   <com1 :parentmsg="msg"></com1>
 </div>
 <script>
   var vm=new Vue({
     el:"#app",
     data:{
-      msg:'123 a-父组建中的数据'
+      msg:'a-父组建中的数据'
     },
     methods:{},
     components:{
       //结论:经过演示,发现子组件中,默认是无法访问父组件中的data上的数据和methods的方法
       com1:{
-        template:"<h1 @click:'change'>这是子组件 {{parentmsg}}</h1>",
+        template:"<h1 @click='change'>这是子组件 {{parentmsg}}</h1>",
         //注:起名时 如果时驼峰 就算时 x-x的写法 也会有意外问题导致父值传不过来
         //组件中的所有 props中的数据, 都是通过父组件传递给子组件的
         props:['parentmsg'], //把父组件传递过来的parentMsg 属性,放在props数组中 定义下 就可以使用

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="../lib/js/vue.js"></script>
+  <script src="../lib/js/vue-router.js"></script>
+
+  <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+  <com1 :parent="msg" @parentmethod="getSonMsg"></com1>
+</div>
+
+
+
+<template id="tem">
+  <div>
+  <h1>子组件--{{parent}}</h1><input type="button" value="给父组件传递消息" @click="sendMsg()">
+  </div>
+</template>
+
+
+<script>
+
+  let com1={
+    template:'#tem',
+    data(){
+      return{
+        msg:'换给爸爸200块'
+      }
+    },
+    methods:{
+      sendMsg(){
+        this.$emit('parentmethod',this.msg)
+      }
+    },
+    props:['parent']
+  }
+
+  var vm=new Vue({
+    el:"#app",
+    data:{
+      msg:'父组件的数据,爸爸有100, 儿子你要不',
+      msgfromson:''
+    },
+    methods:{
+      getSonMsg(msg){
+        this.msgfromson=msg;
+        console.log(this.msgfromson)
+      }
+
+    },
+    components:{
+      com1}
+  })
+</script>
+</body>
+</html>
